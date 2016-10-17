@@ -4,3 +4,11 @@ A little web game with Elm
 ## Setup
 Install Elm for Mac:
 http://install.elm-lang.org/Elm-Platform-0.17.1.pkg
+
+Once that is setup, do:
+
+```
+elm package install
+```
+
+For dependencies.
