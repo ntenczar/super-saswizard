@@ -1,14 +1,21 @@
 import Html exposing (Html, button, div, text, span)
-import Html.App as Html
-import Html.Events exposing (onClick)
-import Keyboard exposing (KeyCode, isDown)
+import Html.App
+import Keyboard
 
 main =
-  Html.beginnerProgram
-    { model = initModel
+  Html.App.program
+    { init = init
     , view = view
     , update = update
+    , subscriptions = subscriptions
     }
+
+init : (Model, Cmd Msg)
+init = (initModel, Cmd.none)
+
+-- SUBSCRIPTIONS
+subscriptions : Model -> Sub Msg
+subscriptions model = Keyboard.presses KeyMsg
 
 -- MODEL
 
@@ -16,12 +23,14 @@ type alias Model = Coord
 type alias Coord =
   { x: Int
   , y: Int
+  , lastKey: Int
   }
 
 initModel : Model
 initModel =
   { x = 0
   , y = 0
+  , lastKey = 0
   }
 
 -- UPDATE
@@ -29,15 +38,22 @@ initModel =
 type Msg
   = MoveLeft
   | MoveRight
+  | KeyMsg Keyboard.KeyCode
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     MoveLeft ->
-      { model | x = model.x + 1 }
+      ({ model | x = model.x + 1 }, Cmd.none)
 
     MoveRight ->
-      { model | x = model.x - 1 }
+      ({ model | x = model.x - 1 }, Cmd.none)
+
+    KeyMsg code ->
+      case code of
+        97 -> update MoveRight model
+        100 -> update MoveLeft model
+        _ -> (model, Cmd.none)
 
 -- VIEW
 
