@@ -1,14 +1,13 @@
-import Html exposing (Html, button, div, text, span)
+import Html exposing (Html)
 import Html.App
 import Keyboard
 import Time
 import AnimationFrame
-import Window exposing (Size)
-import Debug
-import Collage exposing (..)
-import Element exposing (..)
-import Color exposing (..)
 import Task
+import Window exposing (Size)
+
+import Types exposing (..)
+import Wizard exposing (drawWizard)
 
 main : Program Never
 main =
@@ -30,24 +29,7 @@ subscriptions _ = Sub.batch
   , AnimationFrame.diffs Tick
   ]
 
-type Direction
-  = Left
-  | Right
 
-type alias Keys =
-  { x: Int
-  , y: Int
-  }
-
-type alias Model =
-  { x: Float
-  , y: Float
-  , vx: Float
-  , vy: Float
-  , dir: Direction
-  , keys: Keys
-  , size: Size
-  }
 
 initModel : Model
 initModel =
@@ -112,7 +94,7 @@ walk model =
 
 updateKeys : Int -> Keys -> Keys
 updateKeys keyCode keys =
-  case Debug.log "Key: " keyCode of
+  case keyCode of
     37 -> { keys | x = -1 }
     39 -> { keys | x = 1 }
     32 -> { keys | y = 1 }
@@ -122,34 +104,4 @@ updateKeys keyCode keys =
     _ -> keys
 
 view : Model -> Html msg
-view model =
-  let
-    (w', h') = (model.size.width, model.size.height)
-    (w, h) = (toFloat w', toFloat h')
-    verb =
-      case (model.y > 0, model.vx /= 0) of
-        (True, _) -> "jump"
-        (_, True) -> "walk"
-        _ -> "stand"
-
-    dir = case model.dir of
-            Left -> "left"
-            Right -> "right"
-
-    src  = "img/" ++ dir ++ ".gif"
-
-    marioImage = image 35 35 src
-
-    groundY = 62 - h/2
-  in
-    collage w' h'
-        [ rect w h
-            |> filled (rgb 174 238 238)
-        , rect w 50
-            |> filled (rgb 74 167 43)
-            |> move (0, 24 - h/2)
-        , marioImage
-            |> toForm
-            |> move (model.x, model.y + groundY)
-        ]
-    |> toHtml
+view = drawWizard
