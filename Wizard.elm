@@ -1,10 +1,11 @@
 module Wizard exposing (drawWizard)
+
 import Collage exposing (..)
 import Element exposing (..)
 import Color exposing (..)
-import Types exposing (..)
-
 import Html exposing (Html)
+
+import Types exposing (..)
 
 drawWizard : Model -> Html msg
 drawWizard model =

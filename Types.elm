@@ -1,5 +1,13 @@
 module Types exposing (..)
+
 import Window exposing (Size)
+
+type Msg
+  = SizeChange Size
+  | KeyDown Int
+  | KeyUp Int
+  | Tick Float
+  | NoOp
 
 type Direction
   = Left

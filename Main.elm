@@ -40,13 +40,6 @@ initModel =
   , size = Size 0 0
   }
 
-type Msg
-  = SizeChange Size
-  | KeyDown Int
-  | KeyUp Int
-  | Tick Float
-  | NoOp
-
 update : Msg -> Model -> Model
 update msg model =
   case msg of
