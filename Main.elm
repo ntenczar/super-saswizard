@@ -29,8 +29,6 @@ subscriptions _ = Sub.batch
   , AnimationFrame.diffs Tick
   ]
 
-
-
 initModel : Model
 initModel =
   { x = 0
